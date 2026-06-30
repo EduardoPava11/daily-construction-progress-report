@@ -39,7 +39,7 @@ Re-typing data out of a finished PDF is unreliable, so instead each PDF this
 tool exports carries a hidden copy of your form data inside it (in the PDF's
 *Subject* metadata, plus a visible `report-data.json` attachment). **Open PDF…**
 reads that copy back. This means you can only re-edit PDFs that *this tool*
-created — a scanned or third-party PDF has no data to read.
+created; a scanned or third-party PDF has no data to read.
 
 ## Files
 
@@ -56,7 +56,6 @@ assets/logo.png      City of Edmonton logo (from the original template)
 ## Notes
 
 - The PDF page is a high-resolution image of the form, so it prints exactly as
-  it looks on screen. (Text in the PDF is therefore not selectable — that's the
-  trade-off for pixel-faithful, layout-stable output.)
+  it looks on screen. (Text in the PDF is therefore not selectable, which is the trade-off for pixel-faithful, layout-stable output.)
 - You can also use your browser's **File → Print → Save as PDF** for a
   text-selectable version, but that copy won't carry the re-editable data.
