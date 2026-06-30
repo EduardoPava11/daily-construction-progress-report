@@ -2,38 +2,31 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
 <title>Daily Construction Progress Report</title>
-<link rel="stylesheet" href="css/style.css">
+<link data-trunk rel="rust" data-wasm-opt="z"/>
+<link data-trunk rel="copy-dir" href="assets"/>
+<link data-trunk rel="css" href="style.css"/>
 </head>
 <body>
 
-<!-- ===== Toolbar (not part of the printed page) ===== -->
 <div class="toolbar" id="toolbar">
   <div class="tb-left">
     <strong>Daily Construction Progress Report</strong>
     <span class="muted" id="status"></span>
   </div>
   <div class="tb-right">
-    <label class="btn ghost" title="Open a previously exported PDF and keep editing">
-      Open PDF&hellip;
-      <input type="file" id="importPdf" accept="application/pdf" hidden>
-    </label>
-    <button class="btn ghost" id="saveDraft" title="Save data as a .json file">Save Draft</button>
-    <label class="btn ghost" title="Load a .json draft">
-      Load Draft&hellip;
-      <input type="file" id="importJson" accept="application/json,.json" hidden>
-    </label>
-    <button class="btn ghost danger" id="clearBtn" title="Clear the whole form">Clear</button>
-    <button class="btn primary" id="exportPdf" title="Export the report as a PDF">Export PDF</button>
+    <label class="btn ghost">Open PDF&hellip;<input type="file" id="importPdf" accept="application/pdf" hidden></label>
+    <button class="btn ghost" id="saveDraft" type="button">Save Draft</button>
+    <label class="btn ghost">Load Draft&hellip;<input type="file" id="importJson" accept="application/json,.json" hidden></label>
+    <button class="btn ghost danger" id="clearBtn" type="button">Clear</button>
+    <button class="btn primary" id="exportPdf" type="button">Export PDF</button>
   </div>
 </div>
 
-<!-- ===== The printable report sheet ===== -->
 <form id="report">
 <div class="sheet" id="sheet">
 
-  <!-- Header -->
   <header class="hdr">
     <img src="assets/logo.png" alt="City of Edmonton" class="logo">
     <div class="hdr-text">
@@ -44,7 +37,6 @@
     <div class="logo-spacer"></div>
   </header>
 
-  <!-- Top fields -->
   <section class="grid top3">
     <label class="fld"><span>Date:</span><input type="date" name="date"></label>
     <label class="fld"><span>Contract No.</span><input type="text" name="contractNo"></label>
@@ -77,45 +69,27 @@
     <label class="fld sm"><span>Temp Low</span><input type="text" name="tempLow"></label>
   </section>
 
-  <!-- Workforce -->
   <h2 class="band">CONTRACTORS WORKFORCE</h2>
-  <table class="wf">
-    <thead>
-      <tr class="wf-names">
-        <th class="ci" colspan="2"><input type="text" name="wf_name_0" placeholder="Prime Contractor"></th>
-        <th class="ci" colspan="2"><input type="text" name="wf_name_1" placeholder="Sub Contractor"></th>
-        <th class="ci" colspan="2"><input type="text" name="wf_name_2" placeholder="Sub Contractor"></th>
-        <th class="ci" colspan="2"><input type="text" name="wf_name_3" placeholder="Sub Contractor"></th>
-        <th class="ci" colspan="2"><input type="text" name="wf_name_4" placeholder="Sub Contractor"></th>
-      </tr>
-      <tr class="wf-sub">
-        <th>Crew</th><th>Equipment</th>
-        <th>Crew</th><th>Equipment</th>
-        <th>Crew</th><th>Equipment</th>
-        <th>Crew</th><th>Equipment</th>
-        <th>Crew</th><th>Equipment</th>
-      </tr>
-    </thead>
-    <tbody id="wfBody"><!-- rows injected by JS --></tbody>
-  </table>
+  <div class="table-scroll">
+    <table class="wf">
+      <thead><tr class="wf-names"><th class="ci" colspan="2"><input type="text" name="wf_name_0" placeholder="Prime Contractor"></th><th class="ci" colspan="2"><input type="text" name="wf_name_1" placeholder="Sub Contractor"></th><th class="ci" colspan="2"><input type="text" name="wf_name_2" placeholder="Sub Contractor"></th><th class="ci" colspan="2"><input type="text" name="wf_name_3" placeholder="Sub Contractor"></th><th class="ci" colspan="2"><input type="text" name="wf_name_4" placeholder="Sub Contractor"></th></tr><tr class="wf-sub"><th>Crew</th><th>Equipment</th><th>Crew</th><th>Equipment</th><th>Crew</th><th>Equipment</th><th>Crew</th><th>Equipment</th><th>Crew</th><th>Equipment</th></tr></thead>
+      <tbody><tr><td><input type="text" name="wf_0_0_crew"></td><td><input type="text" name="wf_0_0_equip"></td><td><input type="text" name="wf_1_0_crew"></td><td><input type="text" name="wf_1_0_equip"></td><td><input type="text" name="wf_2_0_crew"></td><td><input type="text" name="wf_2_0_equip"></td><td><input type="text" name="wf_3_0_crew"></td><td><input type="text" name="wf_3_0_equip"></td><td><input type="text" name="wf_4_0_crew"></td><td><input type="text" name="wf_4_0_equip"></td></tr><tr><td><input type="text" name="wf_0_1_crew"></td><td><input type="text" name="wf_0_1_equip"></td><td><input type="text" name="wf_1_1_crew"></td><td><input type="text" name="wf_1_1_equip"></td><td><input type="text" name="wf_2_1_crew"></td><td><input type="text" name="wf_2_1_equip"></td><td><input type="text" name="wf_3_1_crew"></td><td><input type="text" name="wf_3_1_equip"></td><td><input type="text" name="wf_4_1_crew"></td><td><input type="text" name="wf_4_1_equip"></td></tr><tr><td><input type="text" name="wf_0_2_crew"></td><td><input type="text" name="wf_0_2_equip"></td><td><input type="text" name="wf_1_2_crew"></td><td><input type="text" name="wf_1_2_equip"></td><td><input type="text" name="wf_2_2_crew"></td><td><input type="text" name="wf_2_2_equip"></td><td><input type="text" name="wf_3_2_crew"></td><td><input type="text" name="wf_3_2_equip"></td><td><input type="text" name="wf_4_2_crew"></td><td><input type="text" name="wf_4_2_equip"></td></tr><tr><td><input type="text" name="wf_0_3_crew"></td><td><input type="text" name="wf_0_3_equip"></td><td><input type="text" name="wf_1_3_crew"></td><td><input type="text" name="wf_1_3_equip"></td><td><input type="text" name="wf_2_3_crew"></td><td><input type="text" name="wf_2_3_equip"></td><td><input type="text" name="wf_3_3_crew"></td><td><input type="text" name="wf_3_3_equip"></td><td><input type="text" name="wf_4_3_crew"></td><td><input type="text" name="wf_4_3_equip"></td></tr><tr><td><input type="text" name="wf_0_4_crew"></td><td><input type="text" name="wf_0_4_equip"></td><td><input type="text" name="wf_1_4_crew"></td><td><input type="text" name="wf_1_4_equip"></td><td><input type="text" name="wf_2_4_crew"></td><td><input type="text" name="wf_2_4_equip"></td><td><input type="text" name="wf_3_4_crew"></td><td><input type="text" name="wf_3_4_equip"></td><td><input type="text" name="wf_4_4_crew"></td><td><input type="text" name="wf_4_4_equip"></td></tr><tr><td><input type="text" name="wf_0_5_crew"></td><td><input type="text" name="wf_0_5_equip"></td><td><input type="text" name="wf_1_5_crew"></td><td><input type="text" name="wf_1_5_equip"></td><td><input type="text" name="wf_2_5_crew"></td><td><input type="text" name="wf_2_5_equip"></td><td><input type="text" name="wf_3_5_crew"></td><td><input type="text" name="wf_3_5_equip"></td><td><input type="text" name="wf_4_5_crew"></td><td><input type="text" name="wf_4_5_equip"></td></tr><tr><td><input type="text" name="wf_0_6_crew"></td><td><input type="text" name="wf_0_6_equip"></td><td><input type="text" name="wf_1_6_crew"></td><td><input type="text" name="wf_1_6_equip"></td><td><input type="text" name="wf_2_6_crew"></td><td><input type="text" name="wf_2_6_equip"></td><td><input type="text" name="wf_3_6_crew"></td><td><input type="text" name="wf_3_6_equip"></td><td><input type="text" name="wf_4_6_crew"></td><td><input type="text" name="wf_4_6_equip"></td></tr><tr><td><input type="text" name="wf_0_7_crew"></td><td><input type="text" name="wf_0_7_equip"></td><td><input type="text" name="wf_1_7_crew"></td><td><input type="text" name="wf_1_7_equip"></td><td><input type="text" name="wf_2_7_crew"></td><td><input type="text" name="wf_2_7_equip"></td><td><input type="text" name="wf_3_7_crew"></td><td><input type="text" name="wf_3_7_equip"></td><td><input type="text" name="wf_4_7_crew"></td><td><input type="text" name="wf_4_7_equip"></td></tr></tbody>
+    </table>
+  </div>
 
-  <!-- Work in progress -->
   <h2 class="band">WORK IN PROGRESS <span class="band-right">Lab Notified</span></h2>
   <p class="legend">1) Excavation&nbsp; 2) Drainage&nbsp; 3) Subbase/Subgrade&nbsp; 4) Concrete&nbsp; 5) Asphalt&nbsp; 6) Utilities&nbsp; 7) Other</p>
-  <table class="wip"><tbody id="wipBody"><!-- rows injected by JS --></tbody></table>
+  <table class="wip"><tbody><tr><td class="wip-text"><input type="text" name="wip_0_text"></td><td class="wip-lab"><input type="checkbox" name="wip_0_lab"></td></tr><tr><td class="wip-text"><input type="text" name="wip_1_text"></td><td class="wip-lab"><input type="checkbox" name="wip_1_lab"></td></tr><tr><td class="wip-text"><input type="text" name="wip_2_text"></td><td class="wip-lab"><input type="checkbox" name="wip_2_lab"></td></tr><tr><td class="wip-text"><input type="text" name="wip_3_text"></td><td class="wip-lab"><input type="checkbox" name="wip_3_lab"></td></tr><tr><td class="wip-text"><input type="text" name="wip_4_text"></td><td class="wip-lab"><input type="checkbox" name="wip_4_lab"></td></tr><tr><td class="wip-text"><input type="text" name="wip_5_text"></td><td class="wip-lab"><input type="checkbox" name="wip_5_lab"></td></tr><tr><td class="wip-text"><input type="text" name="wip_6_text"></td><td class="wip-lab"><input type="checkbox" name="wip_6_lab"></td></tr><tr><td class="wip-text"><input type="text" name="wip_7_text"></td><td class="wip-lab"><input type="checkbox" name="wip_7_lab"></td></tr></tbody></table>
 
-  <!-- Work outside contract -->
   <h2 class="band">WORK OUTSIDE CONTRACT, NOTEWORTHY CONVERSATIONS, DAMAGE TO PROPERTY, ETC</h2>
   <textarea class="notes" name="workOutside" rows="8"></textarea>
 
-  <!-- Checklist -->
   <h2 class="band">CHECKLIST OF ACTIVITIES ON SITE</h2>
   <div class="checklist">
-    <div class="ck-col" id="ckLeft"></div>
-    <div class="ck-col" id="ckRight"></div>
+    <div class="ck-col"><div class="ck-group"><div class="ck-head">Barricading:</div><label class="ck-item"><input type="checkbox" name="barr_arrival"><span>Check Site Arrival</span></label><label class="ck-item"><input type="checkbox" name="barr_departure"><span>Check Site Departure</span></label><label class="ck-item"><input type="checkbox" name="barr_secure"><span>Contractor Advised to Secure</span></label></div><div class="ck-group"><div class="ck-head">Excavation:</div><label class="ck-item"><input type="checkbox" name="exc_truckbox"><span>Truck Box Measured</span></label></div><div class="ck-group"><div class="ck-head">Fill:</div><label class="ck-item"><input type="checkbox" name="fill_lift"><span>Lift Thickness Checked</span></label></div><div class="ck-group"><div class="ck-head">Subgrade:</div><label class="ck-item"><input type="checkbox" name="sub_elev"><span>Elevation Checked</span></label></div><div class="ck-group"><div class="ck-head">Con. Base:</div><label class="ck-item"><input type="checkbox" name="cb_grade"><span>Check Grade</span></label><label class="ck-item"><input type="checkbox" name="cb_elev"><span>Elevation Checked (10mm)</span></label><label class="ck-item"><input type="checkbox" name="cb_thick"><span>Thickness Tolerances Check</span></label></div><div class="ck-group"><div class="ck-head">Concrete:</div><label class="ck-item"><input type="checkbox" name="conc_straight"><span>Straight Edge Tolerance (6mm)</span></label><label class="ck-item"><input type="checkbox" name="conc_elev"><span>Elevation Tolerance (15mm)</span></label><label class="ck-item"><input type="checkbox" name="conc_cross"><span>Crossfall Tolerance (10mm)</span></label><label class="ck-item"><input type="checkbox" name="conc_forms"><span>Check Forms</span></label></div><div class="ck-group"><div class="ck-head">Soil Cement:</div><label class="ck-item"><input type="checkbox" name="sc_grade"><span>Check Grade</span></label><label class="ck-item"><input type="checkbox" name="sc_lift"><span>Lift Thickness Check</span></label></div></div>
+    <div class="ck-col"><div class="ck-group"><div class="ck-head">Drainage:</div><label class="ck-item"><input type="checkbox" name="dr_pipe"><span>Pipe Stamped</span></label><label class="ck-item"><input type="checkbox" name="dr_grade"><span>Check Grade</span></label><label class="ck-item"><input type="checkbox" name="dr_elev"><span>Elevation Checked</span></label></div><div class="ck-group"><div class="ck-head">Landscaping:</div><label class="ck-item"><input type="checkbox" name="ls_topsoil"><span>Topsoil Depth</span></label></div><div class="ck-group"><div class="ck-head">Pavers:</div><label class="ck-item"><input type="checkbox" name="pv_grade"><span>Check Grade</span></label><label class="ck-item"><input type="checkbox" name="pv_straight"><span>Straight Edge Tolerance (8mm)</span></label><label class="ck-item"><input type="checkbox" name="pv_joints"><span>Joints Between Paves (3mm)</span></label></div><div class="ck-group"><div class="ck-head">Asphalt:</div><label class="ck-item"><input type="checkbox" name="as_notify"><span>Notify Lab</span></label><label class="ck-item"><input type="checkbox" name="as_lift"><span>Lift Checked</span></label><label class="ck-item"><input type="checkbox" name="as_spread"><span>Spreading Temp</span></label></div><div class="ck-group"><div class="ck-head">FDR:</div><label class="ck-item"><input type="checkbox" name="fdr_grade"><span>Check Grade</span></label><label class="ck-item"><input type="checkbox" name="fdr_cement"><span>Cement Spread</span></label><label class="ck-item"><input type="checkbox" name="fdr_visual"><span>Visual Inspection</span></label></div></div>
   </div>
 
-  <!-- Signatures -->
   <section class="sigs">
     <label class="fld"><span>Inspector Signature:</span><input type="text" name="inspectorSig"></label>
     <label class="fld sm"><span>Date:</span><input type="date" name="inspectorSigDate"></label>
@@ -127,10 +101,5 @@
 
 </div>
 </form>
-
-<script src="lib/pdf-lib.min.js"></script>
-<script src="lib/html2canvas.min.js"></script>
-<script src="js/form-build.js"></script>
-<script src="js/app.js"></script>
 </body>
 </html>
