@@ -23,9 +23,13 @@ Works on desktop and mobile. Your work auto-saves in the browser as you type.
 
 ## How it works
 
-- **The PDF is drawn as true vector graphics** with the `pdf-writer` crate, so
-  text is sharp at any zoom, nothing is clipped, and the output is identical on
-  every device. (Earlier image-based exports clipped text; this replaces them.)
+- **The PDF reproduces the exact City template.** The original spreadsheet's
+  geometry (every cell border, merge, and label) is extracted to
+  `src/template_model.json` and replayed as true vector graphics with the
+  `pdf-writer` crate; your entries are overlaid into the exact input cells. Text
+  is sharp at any zoom, nothing is clipped, and the layout matches the official
+  form. (Earlier image-based exports clipped text and re-styled the layout; this
+  replaces them.)
 - **Re-editing a PDF**: on export, the complete form data is appended to the PDF
   as a hidden `%%DCPR-DATA:` comment (base64 JSON). PDF viewers ignore it, but
   **Open PDF...** reads it back. So the PDF you download is itself the editable
