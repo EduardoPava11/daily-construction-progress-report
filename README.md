@@ -4,10 +4,21 @@ A static, offline web form that reproduces the City of Edmonton IIS *Daily
 Construction Progress Report* spreadsheet. Fill it out, export a PDF, and
 re-open that PDF later to keep editing.
 
-## Use it
+## Live site
 
-Double-click **`index.html`** (no server, no internet needed). It works in any
-modern browser.
+**https://eduardopava11.github.io/daily-construction-progress-report/**
+
+Bookmark it. It loads in any browser, on any device. (You can also just
+double-click `index.html` locally; no server or internet is required either way.)
+
+## Updating the hosted site
+
+It's served by GitHub Pages from the `main` branch. To change it: edit the
+files, then `git add -A && git commit -m "…" && git push`. The live site
+rebuilds automatically within a minute.
+
+See [`FIELDS.md`](FIELDS.md) for a full inventory of every input (what you type
+vs. what you tick).
 
 ### Buttons (top bar)
 
