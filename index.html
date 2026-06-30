@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Construction Progress Report</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ===== Toolbar (not part of the printed page) ===== -->
+<div class="toolbar" id="toolbar">
+  <div class="tb-left">
+    <strong>Daily Construction Progress Report</strong>
+    <span class="muted" id="status"></span>
+  </div>
+  <div class="tb-right">
+    <label class="btn ghost" title="Open a previously exported PDF and keep editing">
+      Open PDF&hellip;
+      <input type="file" id="importPdf" accept="application/pdf" hidden>
+    </label>
+    <button class="btn ghost" id="saveDraft" title="Save data as a .json file">Save Draft</button>
+    <label class="btn ghost" title="Load a .json draft">
+      Load Draft&hellip;
+      <input type="file" id="importJson" accept="application/json,.json" hidden>
+    </label>
+    <button class="btn ghost danger" id="clearBtn" title="Clear the whole form">Clear</button>
+    <button class="btn primary" id="exportPdf" title="Export the report as a PDF">Export PDF</button>
+  </div>
+</div>
+
+<!-- ===== The printable report sheet ===== -->
+<form id="report">
+<div class="sheet" id="sheet">
+
+  <!-- Header -->
+  <header class="hdr">
+    <img src="assets/logo.png" alt="City of Edmonton" class="logo">
+    <div class="hdr-text">
+      <div class="hdr-1">City of Edmonton</div>
+      <div class="hdr-2">DAILY CONSTRUCTION PROGRESS REPORT</div>
+      <div class="hdr-3">IIS DEPARTMENT</div>
+    </div>
+    <div class="logo-spacer"></div>
+  </header>
+
+  <!-- Top fields -->
+  <section class="grid top3">
+    <label class="fld"><span>Date:</span><input type="date" name="date"></label>
+    <label class="fld"><span>Contract No.</span><input type="text" name="contractNo"></label>
+    <label class="fld"><span>Network Activity No.</span><input type="text" name="networkActivityNo"></label>
+  </section>
+
+  <section class="grid">
+    <label class="fld wide"><span>Location (Stage):</span><input type="text" name="location"></label>
+  </section>
+
+  <section class="grid time-row">
+    <label class="fld"><span>Inspector:</span><input type="text" name="inspector"></label>
+    <label class="fld sm"><span>Start Time</span><input type="time" name="inspStart"></label>
+    <label class="fld sm"><span>End Time</span><input type="time" name="inspEnd"></label>
+  </section>
+
+  <section class="grid">
+    <label class="fld wide top"><span>Overtime Justification:</span><textarea name="overtime" rows="2"></textarea></label>
+  </section>
+
+  <section class="grid time-row">
+    <label class="fld"><span>Contractor:</span><input type="text" name="contractor"></label>
+    <label class="fld sm"><span>Start Time</span><input type="time" name="contrStart"></label>
+    <label class="fld sm"><span>End Time</span><input type="time" name="contrEnd"></label>
+  </section>
+
+  <section class="grid weather-row">
+    <label class="fld"><span>Type of Weather</span><input type="text" name="weather" placeholder="Sunny, Cloudy, Wind, Rain, etc"></label>
+    <label class="fld sm"><span>Temp High</span><input type="text" name="tempHigh"></label>
+    <label class="fld sm"><span>Temp Low</span><input type="text" name="tempLow"></label>
+  </section>
+
+  <!-- Workforce -->
+  <h2 class="band">CONTRACTORS WORKFORCE</h2>
+  <table class="wf">
+    <thead>
+      <tr class="wf-names">
+        <th class="ci" colspan="2"><input type="text" name="wf_name_0" placeholder="Prime Contractor"></th>
+        <th class="ci" colspan="2"><input type="text" name="wf_name_1" placeholder="Sub Contractor"></th>
+        <th class="ci" colspan="2"><input type="text" name="wf_name_2" placeholder="Sub Contractor"></th>
+        <th class="ci" colspan="2"><input type="text" name="wf_name_3" placeholder="Sub Contractor"></th>
+        <th class="ci" colspan="2"><input type="text" name="wf_name_4" placeholder="Sub Contractor"></th>
+      </tr>
+      <tr class="wf-sub">
+        <th>Crew</th><th>Equipment</th>
+        <th>Crew</th><th>Equipment</th>
+        <th>Crew</th><th>Equipment</th>
+        <th>Crew</th><th>Equipment</th>
+        <th>Crew</th><th>Equipment</th>
+      </tr>
+    </thead>
+    <tbody id="wfBody"><!-- rows injected by JS --></tbody>
+  </table>
+
+  <!-- Work in progress -->
+  <h2 class="band">WORK IN PROGRESS <span class="band-right">Lab Notified</span></h2>
+  <p class="legend">1) Excavation&nbsp; 2) Drainage&nbsp; 3) Subbase/Subgrade&nbsp; 4) Concrete&nbsp; 5) Asphalt&nbsp; 6) Utilities&nbsp; 7) Other</p>
+  <table class="wip"><tbody id="wipBody"><!-- rows injected by JS --></tbody></table>
+
+  <!-- Work outside contract -->
+  <h2 class="band">WORK OUTSIDE CONTRACT, NOTEWORTHY CONVERSATIONS, DAMAGE TO PROPERTY, ETC</h2>
+  <textarea class="notes" name="workOutside" rows="8"></textarea>
+
+  <!-- Checklist -->
+  <h2 class="band">CHECKLIST OF ACTIVITIES ON SITE</h2>
+  <div class="checklist">
+    <div class="ck-col" id="ckLeft"></div>
+    <div class="ck-col" id="ckRight"></div>
+  </div>
+
+  <!-- Signatures -->
+  <section class="sigs">
+    <label class="fld"><span>Inspector Signature:</span><input type="text" name="inspectorSig"></label>
+    <label class="fld sm"><span>Date:</span><input type="date" name="inspectorSigDate"></label>
+  </section>
+  <section class="sigs">
+    <label class="fld"><span>Project Manager Signature:</span><input type="text" name="pmSig"></label>
+    <label class="fld sm"><span>Date:</span><input type="date" name="pmSigDate"></label>
+  </section>
+
+</div>
+</form>
+
+<script src="lib/pdf-lib.min.js"></script>
+<script src="lib/html2canvas.min.js"></script>
+<script src="js/form-build.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
